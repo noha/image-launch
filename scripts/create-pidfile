@@ -1,0 +1,7 @@
+self optionAt: 'pidfile' ifPresent: [:path|
+   self log: 'creating pidfile in ', path greaseString.
+   (StandardFileStream forceNewFileNamed: path)
+      nextPutAll: (self optionAt: 'pid') ;
+      close.
+   self log: 'pidfile has been created in ', path
+].

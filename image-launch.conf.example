@@ -1,0 +1,16 @@
+# basic config parameters that are needed
+#
+# #IMAGEDIR# can be used and will be exchanged with the
+# images directory below this directory
+#
+# Linux example
+#VM_BIN=/opt/coglinux/bin/squeak
+#VM_ARGUMENTS=-encoding latin1 -nodisplay -nosound -mmap 64m
+#IMAGE=#IMAGEDIR#/pharo.image
+#IMAGE_ARGS=""
+#
+# Mac OS example
+#VM_BIN=/Applications/Cog.app/Contents/MacOS/Croquet
+#VM_ARGUMENTS=
+#IMAGE=#IMAGEDIR#/pharo.image
+#IMAGE_ARGS=""

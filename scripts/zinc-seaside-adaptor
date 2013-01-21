@@ -1,0 +1,4 @@
+self numberOptionAt: 'port' ifPresent: [:port|
+   (ZnZincServerAdaptor port: port) start.
+   self log: 'Zinc server adaptor started on port ', port asString
+]
