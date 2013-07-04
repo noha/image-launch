@@ -1,9 +1,9 @@
-self numberOptionAt: 'vncport' ifPresent: [:port|
+self optionAt: 'vncport' ifPresent: [:portString|
    RFBServer reset.
    rfb := RFBServer current.
    self optionAt: 'vncpassword' ifPresent: [:password|
       rfb setFullPassword: password
    ].
-   rfb start: port.
-   self log: 'RFB vnc server started on port ', port asString
+   rfb start: portString asNumber.
+   self log: 'RFB vnc server started on port ', portString
 ].

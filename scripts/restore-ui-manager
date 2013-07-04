@@ -1,2 +1,2 @@
 self log: 'restoring ui manager'.
-UIManager default: (UIManager default instVarAt: 1).
+UIManager default: MorphicUIManager new.

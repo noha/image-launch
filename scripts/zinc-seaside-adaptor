@@ -1,4 +1,6 @@
-self numberOptionAt: 'port' ifPresent: [:port|
-   (ZnZincServerAdaptor port: port) start.
-   self log: 'Zinc server adaptor started on port ', port asString
+self optionAt: 'seaside-port' ifPresent: [:portString| | adaptor |
+   adaptor := ZnZincServerAdaptor port: portString asNumber.
+   adaptor server debugMode: true.
+   adaptor start.
+   self log: 'Zinc server adaptor started on port ', portString
 ]
