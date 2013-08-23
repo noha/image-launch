@@ -12,7 +12,7 @@ IMAGE_LAUNCH_INSTALLATION=$(readlink_f  "$(dirname $0)/..")
 # config file can be located by providing it as first argument. The
 # directory of the config will also be added as candidate to find
 # launch.d dir
-if [ -f "$1" ] ; 
+if [ -f "$1" ] || [ -d "$1" ] ; 
 then
    FILE_IN_FIRST_ARG=$1
    # this argument is not needed in image so we skip it
@@ -23,18 +23,6 @@ fi
 CMDLINE_ARGS=""
 while [ "$1" != "" ]; do
    case $1 in
-      # if image-launchdir is not provided we need to resolve the path later
-      --image-launchdir )          
-         HAS_START_DIR_ARG=1
-         CMDLINE_ARGS="$CMDLINE_ARGS $1 $2"
-         shift 
-         shift
-         ;;
-      # if a pid filename is provided we use it. Otherwise we create our
-      # own in order to stop the image later
-      --pidfile )
-         PIDFILE_ARG=$2
-         ;;
       # switch to debug this script. Different then verbose output for
       # start script handling
       --debug )
@@ -53,35 +41,32 @@ logmsg "CMDLINE_ARGS = " $CMDLINE_ARGS
 # resolve path of the config file and load it
 readConfig $FILE_IN_FIRST_ARG
 
-# resolve location of pidfile 
-resolvePidFile $PIDFILE_ARG
+# if no pidfile is specified in config we create own in the application
+# directory
+if [ "$PIDFILE" == "" ] ;
+then
+   PIDFILE="$CONFIG_DIR/image-launch.pid"
+fi
+
 echo $$ > $PIDFILE
 
-# if no image-launchdir argument has been provided we need to resolve
-# it somehow
-if [ -z $HAS_START_DIR_ARG ] ; 
+# IMAGE_LAUNCH_DIR can als be specified in the image-launch.conf. This file
+# has been sourced already. If the variable is still empty it isn't
+# contained in the config file
+if [ -z $IMAGE_LAUNCH_DIR ] ; 
 then
-   # IMAGE_LAUNCH_DIR can als be specified in the image-launch.conf. This file
-   # has been sourced already. If the variable is still empty it isn't
-   # contained in the config file
-   if [ -z $IMAGE_LAUNCH_DIR ] ; 
+   if [ -d "$CONFIG_DIR/launch.d" ] ;
    then
-      if [ -d "$CONFIG_DIR/launch.d" ] ;
-      then
-         # if we can find a directory named image-launch in the same directory
-         # as the image-launch.conf we take it
-         START_ARG="--image-launchdir $CONFIG_DIR/launch.d"
-      else 
-         # no more ideas where to look at. give up!
-         echo "could not find directory for image-launch scripts"
-         exit 1
-      fi
-   else
-      # take IMAGE_LAUNCH_DIR from image-launch.conf
-      START_ARG="--image-launchdir $IMAGE_LAUNCH_DIR"
+      # if we can find a directory named image-launch in the same directory
+      # as the image-launch.conf we take it
+      IMAGE_LAUNCH_DIR="$CONFIG_DIR/launch.d"
+   else 
+      # no more ideas where to look at. give up!
+      echo "could not find directory for image-launch scripts"
+      exit 1
    fi
 fi
-logmsg "START_ARG = " $START_ARG
+logmsg "IMAGE_LAUNCH_DIR = " $IMAGE_LAUNCH_DIR
 
 if [ ! -f $IMAGE ] ;
 then
@@ -99,5 +84,5 @@ logmsg "IMAGE = " $IMAGE
 # finally call the vm with the right image and predefined options
 #
 # VM_BIN VM_ARGUMENTS IMAGE are configured in the image-launch.conf file
-logmsg exec $VM_BIN $VM_ARGUMENTS $IMAGE "$IMAGE_LAUNCH_INSTALLATION/$IMAGE_TYPE/image-launch.st" "$IMAGE_LAUNCH_INSTALLATION/" $START_ARG $IMAGE_ARGS $CMDLINE_ARGS
-exec $VM_BIN $VM_ARGUMENTS $IMAGE "$IMAGE_LAUNCH_INSTALLATION/$IMAGE_TYPE/image-launch.st" "$IMAGE_LAUNCH_INSTALLATION/" $START_ARG $IMAGE_ARGS $CMDLINE_ARGS
+logmsg $VM_BIN $VM_ARGUMENTS $IMAGE $IMAGE_LAUNCH_INSTALLATION/bin/bootstrap.st --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS
+exec $VM_BIN $VM_ARGUMENTS $IMAGE $IMAGE_LAUNCH_INSTALLATION/bin/bootstrap.st --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS

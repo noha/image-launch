@@ -19,19 +19,21 @@ function readConfig {
    # that is found first
    if [ ! -z $1 ] ;
    then
-      CONFIG=$1
+      if [ -f "$1" ] ; 
+      then 
+         CONFIG=$1
+      fi
+      if [ -d "$1" ] ; 
+      then 
+         CONFIG=$1/image-launch.conf
+      fi
    else
       if [ -f "$PWD/image-launch.conf" ] ;
       then
          CONFIG="$PWD/image-launch.conf"
       else
-         if [ -f "$IMAGE_LAUNCH_INSTALLATION/image-launch.conf" ] ;
-         then
-            CONFIG="$IMAGE_LAUNCH_INSTALLATION/image-launch.conf"
-         else
-            echo "cannot find image-launch.conf"
-            exit 1
-         fi
+         echo "cannot find image-launch.conf"
+         exit 1
       fi
    fi
 
@@ -46,13 +48,8 @@ function resolvePidFile {
    # pid file wasn't set manually so we first try to read it from the
    # configuration and if it's not there we create own just for our
    # own purpose
-   if [ -z $1 ] ;
+   if [ "$PIDFILE" == "" ] ;
    then
-      if [ "$PIDFILE" == "" ] ;
-      then
-         PIDFILE="$CONFIG_DIR/image-launch.pid"
-      fi
-   else
-      PIDFILE=$PIDFILE_ARG
+      PIDFILE="$CONFIG_DIR/image-launch.pid"
    fi
 }
