@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo stopping image
+stop-image $PWD
+sleep 1
+echo starting image
+nohup start-image $PWD  > /dev/null 2>&1 &

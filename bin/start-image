@@ -85,4 +85,8 @@ logmsg "IMAGE = " $IMAGE
 #
 # VM_BIN VM_ARGUMENTS IMAGE are configured in the image-launch.conf file
 logmsg $VM_BIN $VM_ARGUMENTS $IMAGE $IMAGE_LAUNCH_INSTALLATION/bin/bootstrap.st --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS
-exec $VM_BIN $VM_ARGUMENTS $IMAGE $IMAGE_LAUNCH_INSTALLATION/bin/bootstrap.st --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS
+if [ "$RUN_USER" == "" ]; then
+   exec $VM_BIN $VM_ARGUMENTS $IMAGE $IMAGE_LAUNCH_INSTALLATION/bin/bootstrap.st --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1
+else
+   exec su $RUN_USER -c "$VM_BIN $VM_ARGUMENTS $IMAGE $IMAGE_LAUNCH_INSTALLATION/bin/bootstrap.st --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1 "
+fi
