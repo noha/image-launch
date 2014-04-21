@@ -4,7 +4,7 @@ CommandLineArguments compile: 'optionAt: aString ifPresent: aBlock
       aBlock value: optionValue ]'.
 
 CommandLineArguments default optionAt: 'imagelaunch-dir' ifPresent: [:dir|
-   dir asFileReference allFiles do: [ :file|
+   dir asFileReference allFiles sort do: [ :file|
       Compiler
          evaluate: file readStream contentsOfEntireFile
          for: CommandLineArguments default
