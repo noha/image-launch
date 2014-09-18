@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # read helper functions
-source "$(dirname $0)/functions"
+source "%PREFIX%/share/image-launch/functions"
 
 # resolve path of the config file and load it
 readConfig $1
@@ -13,7 +13,7 @@ resolvePidFile $PIDFILE_ARG
 PID=$(<"$PIDFILE")
 kill $PID
 
-# on normal exit delete the pid file 
+# on normal exit delete the pid file
 if [ $? == 0 ] ;
 then
    rm $PIDFILE

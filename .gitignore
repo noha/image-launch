@@ -1,0 +1,4 @@
+*.sw?
+bin/start-image
+bin/stop-image
+bin/show-image-ps

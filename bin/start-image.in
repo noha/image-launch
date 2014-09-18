@@ -4,7 +4,7 @@
 set -e
 
 # read helper functions
-source "$(dirname $0)/functions"
+source "%PREFIX%/share/image-launch/functions"
 
 # get the real path of the image-launch installation
 IMAGE_LAUNCH_INSTALLATION=$(readlink_f  "$(dirname $0)/..")
@@ -12,7 +12,7 @@ IMAGE_LAUNCH_INSTALLATION=$(readlink_f  "$(dirname $0)/..")
 # config file can be located by providing it as first argument. The
 # directory of the config will also be added as candidate to find
 # launch.d dir
-if [ -f "$1" ] || [ -d "$1" ] ; 
+if [ -f "$1" ] || [ -d "$1" ] ;
 then
    FILE_IN_FIRST_ARG=$1
    # this argument is not needed in image so we skip it
@@ -30,9 +30,9 @@ while [ "$1" != "" ]; do
          shift
          ;;
       # just copy to rest for pharo to parse
-      * ) 
+      * )
          CMDLINE_ARGS="$CMDLINE_ARGS $1"
-         shift 
+         shift
          ;;
     esac
 done
@@ -53,14 +53,14 @@ echo $$ > $PIDFILE
 # IMAGE_LAUNCH_DIR can als be specified in the image-launch.conf. This file
 # has been sourced already. If the variable is still empty it isn't
 # contained in the config file
-if [ -z $IMAGE_LAUNCH_DIR ] ; 
+if [ -z $IMAGE_LAUNCH_DIR ] ;
 then
    if [ -d "$CONFIG_DIR/launch.d" ] ;
    then
       # if we can find a directory named image-launch in the same directory
       # as the image-launch.conf we take it
       IMAGE_LAUNCH_DIR="$CONFIG_DIR/launch.d"
-   else 
+   else
       # no more ideas where to look at. give up!
       echo "could not find directory for image-launch scripts"
       exit 1
