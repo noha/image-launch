@@ -6,6 +6,8 @@ sharedir=%sharedir%
 SCRIPTDIR=image-launch/scripts
 EXAMPLE=image-launch/images/example
 
+all:
+
 
 install:
 	install -d $(DESTDIR)$(bindir)/

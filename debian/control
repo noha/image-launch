@@ -1,0 +1,15 @@
+Source: image-launch
+Section: net
+Priority: optional
+Maintainer: Holger Hans Peter Freyther <holger@freyther.de>
+Build-Depends: debhelper (>= 7.0.0~), bash
+Standards-Version: 3.8.4
+Homepage: http://openbsc.osmocom.org/
+Vcs-Git: git://bs11-abis.gnumonks.org/openbsc.git
+Vcs-Browser: http://openbsc.osmocom.org/trac/browser
+
+Package: image-launch
+Architecture: all
+Depends: ${misc:Depends}, bash
+Description: Launch Pharo images in a generic way
+ Script to easily launch pharo images
