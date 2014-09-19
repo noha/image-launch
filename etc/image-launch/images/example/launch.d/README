@@ -1,0 +1,7 @@
+"
+These scripts will be executed during the start of the image. You
+should create symlinks from the scripts directory to here. E.g.
+something like:
+
+  ln -s /usr/share/image-launch/scripts/restore-ui-manager 01_restore-ui-manager
+"
