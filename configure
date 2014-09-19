@@ -7,6 +7,9 @@ SRCDIR="$(dirname $0)"
 
 # Initialize defaults
 PREFIX=$PWD
+BINDIR="$PREFIX/bin"
+DATADIR="${PREFIX}/share"
+ETCDIR="${PREFIX}/etc"
 
 
 # Parse configuration arguments.
@@ -17,13 +20,22 @@ do
     OPTARG=$1
     case $OPTARG in
     -h)
-        echo "usage: $0 [--prefix=PATH]" >&2
+        echo "usage: $0 [--prefix=PATH --sysconfdir=PATH]" >&2
         exit 2
         ;;
     --prefix=*)
         val=${OPTARG#*=}
         opt=${OPTARG%=$val}
-        PREFIX=$opt
+        PREFIX=$val
+        # re-set... these directories
+        BINDIR="$PREFIX/bin"
+        DATADIR="${PREFIX}/share"
+        ETCDIR="${PREFIX}/etc"
+        ;;
+    --sysconfdir=*)
+        val=${OPTARG#*=}
+        opt=${OPTARG%=$val}
+        ETCDIR=$val
         ;;
     *)
         echo "Unknown option $OPTARG"
@@ -47,5 +59,13 @@ do
 	sed s,%PREFIX%,$PREFIX,g $SRCDIR/bin/$i.in > bin/$i
 	chmod +x bin/$i
 done
+
+set -x
+sed \
+    -e "s,%SRCDIR%,$SRCDIR,g"             \
+    -e "s,%bindir%,$BINDIR,g"             \
+    -e "s,%etcdir%,$ETCDIR,g"             \
+    -e "s,%sharedir%,$PREFIX/share,g"     \
+    $SRCDIR/Makefile.in > Makefile
 
 echo "Done creating scripts."
