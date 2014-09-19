@@ -41,12 +41,8 @@ logmsg "CMDLINE_ARGS = " $CMDLINE_ARGS
 # resolve path of the config file and load it
 readConfig $FILE_IN_FIRST_ARG
 
-# if no pidfile is specified in config we create own in the application
-# directory
-if [ "$PIDFILE" == "" ] ;
-then
-   PIDFILE="$CONFIG_DIR/image-launch.pid"
-fi
+# finally find the pid file
+resolvePidFile
 
 echo $$ > $PIDFILE
 

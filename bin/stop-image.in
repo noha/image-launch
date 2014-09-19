@@ -7,7 +7,7 @@ source "%PREFIX%/share/image-launch/functions"
 readConfig $1
 
 # finally find the pid file
-resolvePidFile $PIDFILE_ARG
+resolvePidFile
 
 # read pid from pid file and kill process
 PID=$(<"$PIDFILE")
