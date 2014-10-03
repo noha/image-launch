@@ -1,0 +1,30 @@
+SRCDIR=%SRCDIR%
+bindir=%bindir%
+etcdir=%etcdir%
+sharedir=%sharedir%
+
+SCRIPTDIR=image-launch/scripts
+EXAMPLE=image-launch/images/example
+
+all:
+
+
+install:
+	install -d $(DESTDIR)$(bindir)/
+	install -d $(DESTDIR)$(etcdir)/image-launch/images/example/launch.d
+	install -d $(DESTDIR)$(sharedir)/image-launch/scripts
+	# Static content
+	install -m 0755 $(SRCDIR)/bin/restart-image $(DESTDIR)$(bindir)/
+	install -m 0644 share/$(SCRIPTDIR)/create-pidfile $(DESTDIR)$(sharedir)/$(SCRIPTDIR)
+	install -m 0644 share/$(SCRIPTDIR)/zinc-seaside-adaptor $(DESTDIR)$(sharedir)/$(SCRIPTDIR)
+	install -m 0644 share/$(SCRIPTDIR)/rfb-vnc-server $(DESTDIR)$(sharedir)/$(SCRIPTDIR)
+	install -m 0644 share/$(SCRIPTDIR)/restore-ui-manager $(DESTDIR)$(sharedir)/$(SCRIPTDIR)
+	install -m 0644 share/image-launch/bootstrap.st $(DESTDIR)$(sharedir)/image-launch/
+	install -m 0644 share/image-launch/functions $(DESTDIR)$(sharedir)/image-launch/
+	# Example config for the user
+	install -m 0644 etc/$(EXAMPLE)/launch.d/README $(DESTDIR)$(etcdir)/$(EXAMPLE)/launch.d/
+	install -m 0644 etc/$(EXAMPLE)//image.conf.example $(DESTDIR)$(etcdir)/$(EXAMPLE)/
+	# Applications that are generated
+	install -m 0755 bin/start-image $(DESTDIR)$(bindir)/
+	install -m 0755 bin/stop-image $(DESTDIR)$(bindir)/
+	install -m 0755 bin/show-image-ps $(DESTDIR)$(bindir)/

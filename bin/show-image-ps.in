@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # read helper functions
-source "$(dirname $0)/functions"
+source "%PREFIX%/share/image-launch/functions"
 
 # resolve path of the config file and load it
 readConfig $1
 
 # finally find the pid file
-resolvePidFile $PIDFILE_ARG
+resolvePidFile
 
 # read pid from pid file and kill process
 PID=$(<"$PIDFILE")

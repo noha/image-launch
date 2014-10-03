@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# Initialize statics
+PREF_SCRIPTS="show-image-ps start-image stop-image"
+SCRIPT="restart-image ${PREF_SCRIPTS}"
+SRCDIR="$(dirname $0)"
+
+# Initialize defaults
+PREFIX=$PWD
+BINDIR="$PREFIX/bin"
+DATADIR="${PREFIX}/share"
+ETCDIR="${PREFIX}/etc"
+
+
+# Parse configuration arguments.
+# Create a handwritten getopts as getopt is not powerful
+# enought and getopts with long options is not portable.
+while [ $# -gt 0 ];
+do
+    OPTARG=$1
+    case $OPTARG in
+    -h)
+        echo "usage: $0 [--prefix=PATH --sysconfdir=PATH]" >&2
+        exit 2
+        ;;
+    --prefix=*)
+        val=${OPTARG#*=}
+        opt=${OPTARG%=$val}
+        PREFIX=$val
+        # re-set... these directories
+        BINDIR="$PREFIX/bin"
+        DATADIR="${PREFIX}/share"
+        ETCDIR="${PREFIX}/etc"
+        ;;
+    --sysconfdir=*)
+        val=${OPTARG#*=}
+        opt=${OPTARG%=$val}
+        ETCDIR=$val
+        ;;
+    *)
+        echo "Unknown option $OPTARG"
+        exit 2
+        ;;
+    esac
+    shift
+done
+
+
+# Generate files
+if [ ! -e bin ];
+then
+    # In case we run configure in a build directory
+    mkdir bin/ || exit 23
+fi
+
+for i in $PREF_SCRIPTS;
+do
+	echo "Creating version for $i"
+	sed s,%PREFIX%,$PREFIX,g $SRCDIR/bin/$i.in > bin/$i
+	chmod +x bin/$i
+done
+
+set -x
+sed \
+    -e "s,%SRCDIR%,$SRCDIR,g"             \
+    -e "s,%bindir%,$BINDIR,g"             \
+    -e "s,%etcdir%,$ETCDIR,g"             \
+    -e "s,%sharedir%,$PREFIX/share,g"     \
+    $SRCDIR/Makefile.in > Makefile
+
+echo "Done creating scripts."
