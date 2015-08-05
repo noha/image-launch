@@ -10,6 +10,7 @@ Vcs-Browser: http://openbsc.osmocom.org/trac/browser
 
 Package: image-launch
 Architecture: all
+Multi-Arch: foreign
 Depends: ${misc:Depends}, bash
 Description: Launch Pharo images in a generic way
  Script to easily launch pharo images
