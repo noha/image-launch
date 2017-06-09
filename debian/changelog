@@ -1,4 +1,10 @@
-image-launch (1) UNRELEASED; urgency=medium
+image-launch (2) unstable; urgency=medium
+
+  * Introduce PHARO_ARGS to be able to set --no-default-preferences
+
+ -- Holger Hans Peter Freyther <holger@freyther.de>  Fri, 9 Jun 2017 17:23:23 +0800
+
+image-launch (1) unstable; urgency=medium
 
   * Initial release.
 

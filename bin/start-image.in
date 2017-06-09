@@ -80,9 +80,9 @@ logmsg "IMAGE = " $IMAGE
 # finally call the vm with the right image and predefined options
 #
 # VM_BIN VM_ARGUMENTS IMAGE are configured in the image-launch.conf file
-logmsg $VM_BIN $VM_ARGUMENTS $IMAGE $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS
+logmsg $VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS
 if [ "$RUN_USER" == "" ]; then
-   exec $VM_BIN $VM_ARGUMENTS $IMAGE $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1
+   exec $VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1
 else
-   exec su $RUN_USER -c "$VM_BIN $VM_ARGUMENTS $IMAGE $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1 "
+   exec su $RUN_USER -c "$VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1 "
 fi

@@ -6,6 +6,7 @@
 # Linux example
 #VM_BIN=/opt/coglinux/bin/squeak
 #VM_ARGUMENTS=-encoding latin1 -nodisplay -nosound -mmap 64m
+#PHARO_ARGS=--no-default-preferences
 #IMAGE=#IMAGEDIR#/pharo.image
 #IMAGE_ARGS=""
 #
