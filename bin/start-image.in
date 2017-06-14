@@ -38,6 +38,8 @@ while [ "$1" != "" ]; do
 done
 logmsg "CMDLINE_ARGS = " $CMDLINE_ARGS
 
+LOG_OUTPUT='>> $IMAGE.log 2>&1'
+
 # resolve path of the config file and load it
 readConfig $FILE_IN_FIRST_ARG
 
@@ -82,7 +84,7 @@ logmsg "IMAGE = " $IMAGE
 # VM_BIN VM_ARGUMENTS IMAGE are configured in the image-launch.conf file
 logmsg $VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS
 if [ "$RUN_USER" == "" ]; then
-   exec $VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1
+   eval exec $VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS $LOG_OUTPUT
 else
-   exec su $RUN_USER -c "$VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS >> $IMAGE.log 2>&1 "
+   eval exec su $RUN_USER -c "$VM_BIN $VM_ARGUMENTS $IMAGE $PHARO_ARGS $BOOTSTRAP_ST --imagelaunch-dir=$IMAGE_LAUNCH_DIR $IMAGE_ARGS $CMDLINE_ARGS $LOG_OUTPUT"
 fi
