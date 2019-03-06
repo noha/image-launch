@@ -1,3 +1,9 @@
+image-launch (4) unstable; urgency=medium
+
+  * Add Pharo7 compability by using FileReference>>#contents.
+
+ -- Holger Hans Peter Freyther <holger@moiji-mobile.com>  Wed, 6 Mar 2019 10:40:23 +0800
+
 image-launch (3) unstable; urgency=medium
 
   * Introduce LOG_OUTPUT to allow special redirects for the logging.
