@@ -1,3 +1,9 @@
+image-launch (3) unstable; urgency=medium
+
+  * Introduce LOG_OUTPUT to allow special redirects for the logging.
+
+ -- Holger Hans Peter Freyther <holger@moiji-mobile.com>  Wed, 14 Jun 2017 09:00:41 +0200
+
 image-launch (2) unstable; urgency=medium
 
   * Introduce PHARO_ARGS to be able to set --no-default-preferences
