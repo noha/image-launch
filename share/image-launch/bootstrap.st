@@ -5,7 +5,7 @@ CommandLineArguments compile: 'optionAt: aString ifPresent: aBlock
 
 CommandLineArguments default optionAt: 'imagelaunch-dir' ifPresent: [:dir|
    dir asFileReference allFiles sort do: [ :file|
-      Compiler
+      (Smalltalk at: #Compiler ifAbsent: [ Smalltalk compiler ])
          evaluate: file contents
          for: CommandLineArguments default
          logged: false.
